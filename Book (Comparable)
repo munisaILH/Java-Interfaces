@@ -1,0 +1,35 @@
+public class Book implements Comparable<Book>{
+    private String title, author;
+    private int publicationYear;
+    private double price;
+
+    public Book(String title, String author, int publicationYear, double price) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+        this.price = price;
+    }
+    
+    public int compareTo(Book other) {
+        // Compare by publication year
+        int yearComparison = Integer.compare(this.publicationYear, other.publicationYear);
+        if (yearComparison != 0) {
+            return yearComparison;
+        }
+
+        // If publication years are equal, compare by price
+        int priceComparison = Double.compare(this.price, other.price);
+        if (priceComparison != 0) {
+            return priceComparison;
+        }
+
+        // If prices are equal, compare authors alphabetically
+        int authorComparison = this.author.compareTo(other.author);
+        if (authorComparison != 0) {
+            return authorComparison;
+        }
+
+        // If authors are equal, compare titles alphabetically
+        return this.title.compareTo(other.title);
+    }
+}
