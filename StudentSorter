@@ -1,0 +1,112 @@
+import java.io.*;
+import java.util.*;
+
+public class StudentSorter {
+	public static void main(String[] args) throws FileNotFoundException {
+		System.out.println("Choices: \nF - sort by first name\nL - sort by last name\nI- sort by id\nG-sort by grade\nQ - quit");
+
+		Scanner kybd = new Scanner(System.in);
+		String choice = kybd.next();
+		
+		Scanner scanner = new Scanner(new File("students.txt"));
+		int numStudents = scanner.nextInt();
+
+		Student[] students = new Student[numStudents];
+		//reading in each student into students[]
+		for(int i = 0;i<numStudents;i++) {		
+			String first = scanner.next();
+			String last = scanner.next();
+			int ID = scanner.nextInt();
+			float Grade = scanner.nextFloat();
+
+			students[i] = new Student(first,
+					last,ID, Grade);
+		}
+		while(!choice.equals("Q")){
+			try{
+				switch(choice) {
+				case "F":
+					Arrays.sort(students, (s1, s2) -> s1.getfirstName().compareTo(s2.getfirstName()));
+					System.out.println("students sorted by first name:\n");
+					for(int i = 0;i< numStudents;i++) {
+						System.out.println(students[i].getfirstName() + " " +
+								students[i].getlastName() + " " + students[i].getID() +
+								" " + students[i].getGrade());
+					}	
+					break;
+				case "L":
+					Arrays.sort(students, (s1, s2) -> s1.getlastName().compareTo(s2.getlastName()));
+					System.out.println("students sorted by last name:\n");
+					for(int i = 0;i< numStudents;i++) {
+						System.out.println(students[i].getfirstName() + " " +
+								students[i].getlastName() + " " + students[i].getID() +
+								" " + students[i].getGrade());
+					}	
+					break;
+				case "I":
+					Arrays.sort(students, (s1, s2) -> Integer.compare(s1.getID(), s2.getID()));
+					System.out.println("students sorted by id: \n");
+					for(int i = 0;i< numStudents;i++) {
+						System.out.println(students[i].getfirstName() + " " +
+								students[i].getlastName() + " " + students[i].getID() +
+								" " + students[i].getGrade());
+					}
+					break;
+				case "G":	
+					Arrays.sort(students, (s1, s2) -> Float.compare(s1.getGrade(), s2.getGrade()));
+					System.out.println("students sorted by grade: \n");
+					for(int i = 0;i< numStudents;i++) {
+						System.out.println(students[i].getfirstName() + " " +
+								students[i].getlastName() + " " + students[i].getID() +
+								" " + students[i].getGrade());
+					}
+					break;
+				case "Q":
+					break;
+				default:
+					System.out.print("Invalid choice");
+				}
+			}catch(IllegalArgumentException e) {
+				System.err.println("File not found: " + e.getMessage());
+			}
+			System.out.println("Choices: \nF - sort by first name\nL - sort by last name\nI- sort by id\nG-sort by grade\nQ - quit");
+			choice = kybd.next();
+
+		}//end of while loop
+		kybd.close();
+	}
+}
+
+class Student{
+	//fields
+	private String firstName;
+	private String lastName;
+	private int id;
+	private float grade; 
+	//constructor
+	public Student(String firstName,String lastName,int id, float grade) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.id = id;
+		this.grade = grade;
+	}
+
+	//getters
+	public String getfirstName(){
+		return this.firstName;
+	}
+	public String getlastName() {
+		return lastName;
+	}
+	public int getID() {
+		return this.id;
+	}
+	public float getGrade() {
+		return this.grade;
+	}
+	//toString
+	public String toString() {
+		return firstName + " " + lastName + " (" + id + "), Grade: " + grade;
+	}
+}
+
