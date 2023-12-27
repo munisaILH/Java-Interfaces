@@ -1,0 +1,98 @@
+class Time24 implements Comparable<Time24> {
+//should implement the Comparable interface
+//fields
+	private int hour, minute, second;
+	
+//constructors
+	public Time24(int hour, int minute, int second) {
+        if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59 && second >= 0 && second <= 59) {
+            this.hour = hour;
+            this.minute = minute;
+            this.second = second;
+        } else {
+            throw new IllegalArgumentException("Invalid time values");
+        }
+    }
+//getter methods
+public int getHour() {
+	return hour;
+}
+public int getMinute() {
+	return minute;
+}
+public int getSecond() {
+	return second;
+}
+
+//a time-parse method, equals, hashCode, toString
+public static Time24 parse(String timeString) {
+    try {
+        String[] timeComponents = timeString.split(":");
+        if (timeComponents.length == 3) {
+            int hour = Integer.parseInt(timeComponents[0]);
+            int minute = Integer.parseInt(timeComponents[1]);
+            int second = Integer.parseInt(timeComponents[2]);
+            return new Time24(hour, minute, second);
+        }
+    } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+        System.err.println("Invalid time string: " + timeString);
+    }
+    return new Time24(0, 0, 0);
+}
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+        return false;
+    }
+    
+    Time24 otherTime = (Time24) obj;
+    
+    return this.hour == otherTime.getHour() &&
+           this.minute == otherTime.getMinute() &&
+           this.second == otherTime.getSecond();
+}
+
+@Override
+public int hashCode() {
+    int result = 17;  // A prime number as an initial value
+    result = 31 * result + hour;
+    result = 31 * result + minute;
+    result = 31 * result + second;
+    return result;
+}
+
+
+
+@Override
+public String toString() {
+	return String.format("%02d:%02d:%02d", hour, minute, second);
+}
+@Override
+public int compareTo(Time24 other) {
+    if (this.hour < other.getHour()) {
+        return -1;
+    } else if (this.hour > other.getHour()) {
+        return 1;
+    } else {
+        if (this.minute < other.getMinute()) {
+            return -1;
+        } else if (this.minute > other.getMinute()) {
+            return 1;
+        } else {
+            if (this.second < other.getSecond()) {
+                return -1;
+            } else if (this.second > other.getSecond()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+}
+
+//all objects should be compared chronologically using Comparable interface 
+}
